@@ -5,11 +5,6 @@ set ruler
 set number
 syntax on
 
-if has("gui_running")
-  set lines=40
-  set columns=100
-endif
-
 " Make tab act right.
 set tabstop=2 shiftwidth=2 expandtab smartindent autoindent
 autocmd BufRead,BufNewFile *.py set tabstop=4 shiftwidth=4
@@ -26,6 +21,9 @@ augroup module
 augroup END
 
 autocmd BufRead,BufNewFile *.less set filetype=css
+
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.DS_Store$', '.git', '*.*.swp', '.idea']
 
 " make backspace work like most other apps
 set backspace=2
@@ -56,3 +54,9 @@ if has("gui_running")
   colorscheme solarized
 endif
 
+if &diff
+  set columns=200
+endif
+
+" Check spelling in Git
+autocmd FileType gitcommit setlocal spell
