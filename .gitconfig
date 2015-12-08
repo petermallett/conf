@@ -1,0 +1,27 @@
+[user]
+	name = Peter Mallett
+	email = peter.mallett@mediacurrent.com
+[core]
+	excludesfile = /Users/petermallett/.gitignore_global
+	autocrlf = false
+	safecrlf = false
+	ignorecase = false
+	editor = vim
+[color]
+	ui = true
+	diff = auto
+	status = auto
+	branch = auto
+[diff]
+	algorithm = patience
+	renames = copies
+[alias]
+	assume = update-index --assume-unchanged
+	unassume = update-index --no-assume-unchanged
+	assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+	#lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)' --abbrev-commit
+[push]
+	default = simple
+[fetch]
+	prune = true
