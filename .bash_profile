@@ -1,4 +1,5 @@
 source ~/.profile
+source ~/.bash_private
 
 alias gitinfo="git-info.sh | less"
 alias gitl="git log --oneline --decorate --graph"
@@ -32,15 +33,6 @@ up () {
 if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
-
-#Homebrew Github personal token
-export HOMEBREW_GITHUB_API_TOKEN=6cc0de69d404ffc28726ac69993a94f4d7a22d8c
-
-# Include private stuff.
-#let $LOCALFILE=expand('~/.EXAMPLE-private')
-# if filereadable($LOCALFILE)
-#  source $LOCALFILE
-# endif
 
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWDIRTYSTATE=true
