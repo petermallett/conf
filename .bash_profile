@@ -5,9 +5,12 @@ alias gitinfo="git-info.sh | less"
 alias gitl="git log --oneline --decorate --graph"
 alias gitsrp="git stash; git rebase; git stash pop"
 alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k|head -n 1)\\t$k;done|sort -r'
+alias git-shame='git-branches-by-commit-date.sh'
 alias gitx="open /Applications/GitX.app ."
 alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
-alias drush-debug='XDEBUG_CONFIG="idekey=ide-key" drush $*'
+alias drush-debug='XDEBUG_CONFIG="idekey=PHPSTORM" drush $*'
+alias drush-vdebug='drush $1 ssh "XDEBUG_CONFIG=idekey=PHPSTORM drush $*"'
+
 alias gvimdiff='mvim -d'
 alias fuck='$(thefuck $(fc -ln -1))'
 
