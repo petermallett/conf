@@ -9,10 +9,11 @@ alias git-shame='git-branches-by-commit-date.sh'
 alias gitx="open /Applications/GitX.app ."
 alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
 alias drush-debug='XDEBUG_CONFIG="idekey=PHPSTORM" drush $*'
-alias drush-vdebug='drush $1 ssh "XDEBUG_CONFIG=idekey=PHPSTORM drush $*"'
-
+function drush_vdebug {
+  vagrant ssh -c "export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; cd docroot; ./vendor/drush/drush/drush.launcher $*"
+}
 alias gvimdiff='mvim -d'
-alias fuck='$(thefuck $(fc -ln -1))'
+eval "$(thefuck --alias)"
 
 export CLICOLOR=1
 
