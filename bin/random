@@ -8,17 +8,19 @@
 function generatePassword($length = 24) {
   if(function_exists('openssl_random_pseudo_bytes')) {
     $password = base64_encode(openssl_random_pseudo_bytes($length, $strong));
-    if($strong == TRUE)
-      return substr($password, 0, $length); //base64 is about 33% longer, so we need to truncate the result
+    if ($strong == TRUE) {
+      // base64 is about 33% longer, so truncate the result.
+      return substr($password, 0, $length);
+    }
   }
 
-  //fallback to mt_rand if php < 5.3 or no openssl available
+  // Fallback to mt_rand if php < 5.3 or no openssl available.
   $characters = '0123456789';
   $characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/+'; 
   $charactersLength = strlen($characters)-1;
   $password = '';
 
-  //select some random characters
+  // Select some random characters.
   for ($i = 0; $i < $length; $i++) {
     $password .= $characters[mt_rand(0, $charactersLength)];
   }
@@ -32,4 +34,3 @@ if (isset($argv[1])) {
 }
 
 echo generatePassword($length) . "\n";
-
