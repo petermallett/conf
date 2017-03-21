@@ -8,12 +8,27 @@ alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --p
 alias git-shame='git-branches-by-commit-date.sh'
 alias gitx="open /Applications/GitX.app ."
 alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
-alias drush-debug='XDEBUG_CONFIG="idekey=PHPSTORM" drush $*'
-function drush_vdebug {
-  vagrant ssh -c "export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; cd docroot; ./vendor/drush/drush/drush.launcher $*"
+
+drush_vdebug () {
+  USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
+  USAGE+=$'ARGUMENTS:\n'
+  USAGE+=$'  <servername>: The server configuration name in PHPStorm\n'
+  USAGE+=$'  <drush-command>: The Drush command and any additional arguments for Drush'
+
+  if [[ $# -lt 3 ]]; then
+    echo "$USAGE"
+    return 1
+  fi
+
+  SERVERNAME="$1"
+  shift 1
+  SSHCOMMAND="export PHP_IDE_CONFIG=\"serverName=$SERVERNAME\"; export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; cd docroot/web; ../vendor/drush/drush/drush.launcher $@"
+
+  echo "Executing SSH Command: \"$SSHCOMMAND\""
+  vagrant ssh -c "$SSHCOMMAND"
 }
+
 alias gvimdiff='mvim -d'
-eval "$(thefuck --alias)"
 
 export CLICOLOR=1
 
@@ -44,9 +59,6 @@ GIT_PS1_SHOWCOLORHINTS=true
 #GIT_PS1_SHOWUNTRACKEDFILES=true
 PS1=' [\w \t\[\033[0;32m\]$(__git_ps1 " (%s)")\[\033[0m\]]\n$ '
 #PROMPT_COMMAND='__git_ps1 "\w \t" "\n \$ "'
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # Updates PATH for the Google Cloud SDK.
 source '/Users/petermallett/workspace/google-cloud-sdk/path.bash.inc'
