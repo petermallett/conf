@@ -5,6 +5,10 @@ set ruler
 set number
 syntax on
 
+" Highlight non-ascii characters
+syntax match nonascii "[^\x00-\x7F]"
+highlight nonascii guibg=Red ctermbg=2
+
 " Make tab act right.
 set tabstop=2 shiftwidth=2 expandtab smartindent autoindent
 autocmd BufRead,BufNewFile *.py set tabstop=4 shiftwidth=4
@@ -22,8 +26,20 @@ augroup END
 
 autocmd BufRead,BufNewFile *.less set filetype=css
 
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.DS_Store$', '.git', '*.*.swp', '.idea']
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+
+" PEP8 indentation
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
 
 " make backspace work like most other apps
 set backspace=2
@@ -60,3 +76,14 @@ endif
 
 " Check spelling in Git
 autocmd FileType gitcommit setlocal spell
+
+" Load custom .vimrc.local files in the CWD when vim is run
+let b:searchdir=expand("%:p:h")
+while b:searchdir != '/'
+  let b:vim=b:searchdir."/.vimrc.local"
+  if (filereadable(b:vim))
+    execute "source ".b:vim
+    break
+  endif
+  let b:searchdir=fnamemodify(b:searchdir, ':h')
+endwhile
