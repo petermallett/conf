@@ -4,6 +4,8 @@ set encoding=utf-8
 set ruler
 set number
 syntax on
+set showcmd
+let mapleader = ","
 
 " Highlight non-ascii characters
 syntax match nonascii "[^\x00-\x7F]"
