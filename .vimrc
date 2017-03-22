@@ -72,12 +72,20 @@ if has("gui_running")
   colorscheme solarized
 endif
 
-if &diff
-  set columns=200
-endif
-
 " Check spelling in Git
 autocmd FileType gitcommit setlocal spell
+autocmd FileType gitcommit let g:loaded_youcompleteme = 1
+
+if &diff
+  set columns=200
+  let g:loaded_youcompleteme = 1
+endif
+
+" Vim-plug https://github.com/junegunn/vim-plug
+call plug#begin('~/.vim/plugged')
+Plug 'tomtom/tcomment_vim'
+"Plug 'Valloric/YouCompleteMe'
+call plug#end()
 
 " Load custom .vimrc.local files in the CWD when vim is run
 let b:searchdir=expand("%:p:h")
