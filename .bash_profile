@@ -8,12 +8,15 @@ alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --p
 alias git-shame='git-branches-by-commit-date.sh'
 alias gitx="open /Applications/GitX.app ."
 alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
+alias vagrant-debug-enable='vagrant ssh -c "sudo mv /etc/php/7.0/cli/conf.d/20-xdebug.ini.disabled /etc/php/7.0/cli/conf.d/20-xdebug.ini"'
+alias vagrant-debug-disable='vagrant ssh -c "sudo mv /etc/php/7.0/cli/conf.d/20-xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini.disabled"'
+alias vagrant-debug-enabled='vagrant ssh -c "php -i | grep xdebug.support"'
 
 drush_vdebug () {
   USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
   USAGE+=$'ARGUMENTS:\n'
   USAGE+=$'  <servername>: The server configuration name in PHPStorm\n'
-  USAGE+=$'  <drush-command>: The Drush command and any additional arguments for Drush'
+  USAGE+=$'  <drush-command>: The Drush command followed by any additional arguments for Drush'
 
   if [[ $# -lt 3 ]]; then
     echo "$USAGE"
@@ -27,6 +30,15 @@ drush_vdebug () {
   echo "Executing SSH Command: \"$SSHCOMMAND\""
   vagrant ssh -c "$SSHCOMMAND"
 }
+drush_vdebug7 () {
+  SERVERNAME="$1"
+  shift 1
+  SSHCOMMAND="export PHP_IDE_CONFIG=\"serverName=$SERVERNAME\"; export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; cd docroot; drush $@"
+
+  echo "Executing SSH Command: \"$SSHCOMMAND\""
+  vagrant ssh -c "$SSHCOMMAND"
+}
+
 
 alias gvimdiff='mvim -d'
 
