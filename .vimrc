@@ -4,6 +4,7 @@ set encoding=utf-8
 set ruler number
 syntax on
 set showcmd
+set autochdir
 let mapleader = ","
 
 " Highlight non-ascii characters
@@ -29,10 +30,6 @@ set colorcolumn=81
 " Highlight searches. Space unhighlights everything.
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-
-" Change directory to the directory of the current window, only in the current
-" window, unless in /tmp
-autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
 
 if has("gui_running")
   set lines=40
