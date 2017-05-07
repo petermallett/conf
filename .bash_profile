@@ -8,10 +8,30 @@ alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --p
 alias git-shame='git-branches-by-commit-date.sh'
 alias gitx="open /Applications/GitX.app ."
 alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
-alias vagrant-debug-enable='vagrant ssh -c "sudo mv /etc/php/7.0/cli/conf.d/20-xdebug.ini.disabled /etc/php/7.0/cli/conf.d/20-xdebug.ini"'
-alias vagrant-debug-disable='vagrant ssh -c "sudo mv /etc/php/7.0/cli/conf.d/20-xdebug.ini /etc/php/7.0/cli/conf.d/20-xdebug.ini.disabled"'
-alias vagrant-debug-enabled='vagrant ssh -c "php -i | grep xdebug.support"'
 
+vagrant_param_echo_version () {
+  DEFAULT=7.0
+  echo ${1-$DEFAULT}
+}
+vagrant_param_echo_phptype () {
+  DEFAULT=cli
+  echo ${1-$DEFAULT}
+}
+vagrant_debug_enable () {
+  version=$(vagrant_param_echo_version $1)
+  phptype=$(vagrant_param_echo_phptype $2)
+  vagrant ssh -c "sudo mv /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled /etc/php/$version/$phptype/conf.d/20-xdebug.ini"
+}
+vagrant_debug_disable () {
+  version=$(vagrant_param_echo_version $1)
+  phptype=$(vagrant_param_echo_phptype $2)
+  vagrant ssh -c "sudo mv /etc/php/$version/$phptype/conf.d/20-xdebug.ini /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled"
+}
+alias vagrant_debug_is_enabled='vagrant ssh -c "php -i | grep xdebug.support"'
+
+jira() {
+  open "http://codeandtheory.atlassian.net/browse/$1"
+}
 drush_vdebug () {
   USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
   USAGE+=$'ARGUMENTS:\n'
@@ -76,3 +96,6 @@ PS1=' [\w \t\[\033[0;32m\]$(__git_ps1 " (%s)")\[\033[0m\]]\n$ '
 source '/Users/petermallett/workspace/google-cloud-sdk/path.bash.inc'
 # Enable bash completion for gcloud.
 source '/Users/petermallett/workspace/google-cloud-sdk/completion.bash.inc'
+
+# Init rbenv
+eval "$(rbenv init -)"
