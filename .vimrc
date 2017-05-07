@@ -52,6 +52,31 @@ if has("gui_running")
   set background=light
   set cursorline
   colorscheme solarized
+
+  function! ToggleGUICruft()
+    if &guioptions=='i'
+      exec('set guioptions=imTrL')
+    else
+      exec('set guioptions=i')
+    endif
+  endfunction
+
+  map <F11> <Esc>:call ToggleGUICruft()<cr>
+
+  " by default, hide gui menus
+  set guioptions=i
+
+  if has("gui_win32")
+
+    " Always use only LF
+    set ffs=unix
+    set fileformat=unix
+
+    set background=dark
+    au VimEnter * vsplit
+    set guifont=Consolas:h11:cANSI
+  endif
+
 endif
 
 highlight BadWhitespace ctermbg=red guibg=darkred
@@ -59,6 +84,7 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 augroup c_cpp
   au BufRead,BufNewFile *.cpp,*.h set tabstop=4 shiftwidth=4
+  au BufRead,BufNewFile *.cpp,*.h set nowrap
 augroup END
 
 augroup drupal_module
@@ -101,7 +127,7 @@ endif
 " Vim-plug https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
 " YCM configuratoin
