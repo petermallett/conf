@@ -1,11 +1,26 @@
 execute pathogen#infect()
 
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+
+" Remap window movements
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+set guifont=Hack:h12
+
 set encoding=utf-8
 set ruler number
 syntax on
 set showcmd
 set autochdir
 let mapleader = ","
+
+" Show file options above the command line
+set wildmenu
 
 " Highlight non-ascii characters
 syntax match nonascii "[^\x00-\x7F]"
