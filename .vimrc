@@ -1,22 +1,16 @@
 execute pathogen#infect()
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
-
 " Remap window movements
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-set guifont=Hack:h12
-
 set encoding=utf-8
 set ruler number
 syntax on
 set showcmd
-set autochdir
+autocmd BufEnter * silent! lcd %:p:h
 let mapleader = ","
 
 " Show file options above the command line
@@ -47,7 +41,7 @@ set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 if has("gui_running")
-  set lines=40
+  set lines=55
   set columns=100
   set background=light
   set cursorline
@@ -67,16 +61,19 @@ if has("gui_running")
   set guioptions=i
 
   if has("gui_win32")
+    set lines=65
+    set columns=200
 
     " Always use only LF
     set ffs=unix
     set fileformat=unix
 
     set background=dark
-    au VimEnter * vsplit
+    " au VimEnter * vsplit
     set guifont=Consolas:h11:cANSI
+  else
+    set guifont=Hack:h12
   endif
-
 endif
 
 highlight BadWhitespace ctermbg=red guibg=darkred
@@ -116,8 +113,8 @@ augroup html
 augroup END
 
 " Check spelling in Git
-autocmd FileType gitcommit setlocal spell
-autocmd FileType gitcommit let g:loaded_youcompleteme = 1
+au FileType gitcommit setlocal spell
+au FileType gitcommit let g:loaded_youcompleteme = 1
 
 if &diff
   set columns=200
@@ -127,12 +124,27 @@ endif
 " Vim-plug https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'
+Plug 'skywind3000/asyncrun.vim'
 " Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
+function! DoBuildBatchFile()
+    AsyncRun w:\handmade\build.bat
+    copen
+endfunction
+noremap <leader>b <C-O>:call DoBuildBatchFile()<CR>
+"Go to next error
+nnoremap <F6> <C-O>:cn<CR>
+"Go to previous error
+nnoremap <F5> <C-O>:cp<CR>
+
+" python from powerline.vim import setup as powerline_setup
+" python powerline_setup()
+" python del powerline_setup
+
 " YCM configuratoin
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" let g:ycm_autoclose_preview_window_after_completion=1
+" map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Load custom .vimrc.local files in the CWD when vim is run
 " let b:searchdir=expand("%:p:h")
