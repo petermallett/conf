@@ -12,6 +12,7 @@ syntax on
 set showcmd
 autocmd BufEnter * silent! lcd %:p:h
 let mapleader = ","
+set switchbuf=useopen
 
 " Show file options above the command line
 set wildmenu
@@ -125,26 +126,30 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'
 Plug 'skywind3000/asyncrun.vim'
-" Plug 'Valloric/YouCompleteMe'
+Plug 'Rip-Rip/clang_complete'
 call plug#end()
 
+augroup quickfix
+    autocmd!
+    autocmd FileType qf setlocal wrap
+augroup END
+
 function! DoBuildBatchFile()
-    AsyncRun w:\handmade\build.bat
-    copen
+  AsyncRun w:\handmade\build.bat
+  copen
 endfunction
-noremap <leader>b <C-O>:call DoBuildBatchFile()<CR>
+noremap <leader>m :w<CR><C-O>:call DoBuildBatchFile()<CR>
 "Go to next error
 nnoremap <F6> <C-O>:cn<CR>
 "Go to previous error
 nnoremap <F5> <C-O>:cp<CR>
 
+nnoremap <leader>b :buffers<CR>:buffer<Space>
+nmap <leader>d :bprevious<CR>:bdelete #<CR>
+
 " python from powerline.vim import setup as powerline_setup
 " python powerline_setup()
 " python del powerline_setup
-
-" YCM configuratoin
-" let g:ycm_autoclose_preview_window_after_completion=1
-" map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Load custom .vimrc.local files in the CWD when vim is run
 " let b:searchdir=expand("%:p:h")
