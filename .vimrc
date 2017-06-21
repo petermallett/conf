@@ -64,14 +64,14 @@ if has("gui_running")
   if has("gui_win32")
     set lines=65
     set columns=200
+    set background=dark
+    set guifont=Consolas:h11:cANSI
 
     " Always use only LF
     set ffs=unix
     set fileformat=unix
 
-    set background=dark
-    " au VimEnter * vsplit
-    set guifont=Consolas:h11:cANSI
+    let g:clang_library_path='C:\LLVM\bin\'
   else
     set guifont=Hack:h12
   endif
