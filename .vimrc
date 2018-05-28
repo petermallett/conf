@@ -62,8 +62,7 @@ if has("gui_running")
   set guioptions=i
 
   if has("gui_win32")
-    set lines=65
-    set columns=200
+    set lines=80 columns=220 linespace=0
     set background=dark
     set guifont=Consolas:h11:cANSI
 
@@ -71,7 +70,16 @@ if has("gui_running")
     set ffs=unix
     set fileformat=unix
 
+    " have to disable auto for now because vim-clang tries to re-open files
+    " and I don't know how to stop it and it's annoying
+    let g:clang_auto = 0
+    let g:clang_debug = 0
     let g:clang_library_path='C:\LLVM\bin\'
+    let g:clang_use_library = 1
+    let g:clang_user_options='|| exit 0'
+    let g:clang_close_preview = 1
+    let g:clang_snippets = 1
+    let g:clang_trailing_placeholder = 1
   else
     set guifont=Hack:h12
   endif
@@ -115,30 +123,36 @@ augroup END
 
 " Check spelling in Git
 au FileType gitcommit setlocal spell
-au FileType gitcommit let g:loaded_youcompleteme = 1
 
 if &diff
   set columns=200
-  let g:loaded_youcompleteme = 1
 endif
 
 " Vim-plug https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'Rip-Rip/clang_complete'
+Plug 'justmao945/vim-clang'
+" Using vim-clang for now because I can't figure out how to get clang_complete
+" to build properly
+" Plug 'Rip-Rip/clang_complete'
 call plug#end()
 
 augroup quickfix
     autocmd!
     autocmd FileType qf setlocal wrap
+    autocmd QuickFixCmdPost * copen
 augroup END
 
 function! DoBuildBatchFile()
-  AsyncRun w:\handmade\build.bat
+  AsyncRun! w:\handmade\code\build.bat
   copen
 endfunction
-noremap <leader>m :w<CR><C-O>:call DoBuildBatchFile()<CR>
+noremap <leader>m :w<CR>:call DoBuildBatchFile()<CR>
+function! DoRun()
+  AsyncRun! PowerShell -Command "Start-Process -FilePath w:\build\win32_handmade.exe -WorkingDirectory w:\handmade"
+endfunction
+noremap <leader>r :call DoRun()<CR>
 "Go to next error
 nnoremap <F6> <C-O>:cn<CR>
 "Go to previous error
@@ -146,6 +160,15 @@ nnoremap <F5> <C-O>:cp<CR>
 
 nnoremap <leader>b :buffers<CR>:buffer<Space>
 nmap <leader>d :bprevious<CR>:bdelete #<CR>
+
+function! s:insert_gates()
+  let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
+  execute "normal! i#ifndef " . gatename
+  execute "normal! o#define " . gatename
+  execute "normal! Go#endif"
+  normal! kk
+endfunction
+autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
 
 " python from powerline.vim import setup as powerline_setup
 " python powerline_setup()
