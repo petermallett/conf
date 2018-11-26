@@ -1,5 +1,10 @@
-source ~/.profile
+
 source ~/.bash_private
+export PATH=/usr/local/sbin:$HOME/bin:$HOME/.composer/vendor/bin:$PATH
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 
 alias gitinfo="git-info.sh | less"
 alias gitl="git log --oneline --decorate --graph"
@@ -8,30 +13,39 @@ alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --p
 alias git-shame='git-branches-by-commit-date.sh'
 alias gitx="open /Applications/GitX.app ."
 alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
+alias drushmc='drush $(drush sa | grep ^@\.*\.mcdev)'
+# alias git-delete-merged-remotes="git branch -a --merged |grep feature | sed 's|remotes/origin/||' |xargs git push origin --delete"
 
-vagrant_param_echo_version () {
-  DEFAULT=7.0
-  echo ${1-$DEFAULT}
+# { eval `ssh-agent`; ssh-add -A; } &>/dev/null
+
+bit() {
+  NAME=$(basename `git rev-parse --show-toplevel`)
+  open "https://bitbucket.org/mediacurrent/$NAME/branch/$1"
+}
+jira() {
+  open "http://codeandtheory.atlassian.net/browse/$1"
+}
+
+alias debug_cmdlist='echo vagrant_debug_enable vagrant_debug_disable vagrant_debug_is_enabled drush_vdebug'
+vagrant_get_php_ver() {
+  VER=$(vagrant ssh -c "php -r \"echo PHP_VERSION;\"")
+  echo ${VER:0:3}
 }
 vagrant_param_echo_phptype () {
   DEFAULT=cli
   echo ${1-$DEFAULT}
 }
 vagrant_debug_enable () {
-  version=$(vagrant_param_echo_version $1)
+  version=$(vagrant_get_php_ver)
   phptype=$(vagrant_param_echo_phptype $2)
   vagrant ssh -c "sudo mv /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled /etc/php/$version/$phptype/conf.d/20-xdebug.ini"
 }
 vagrant_debug_disable () {
-  version=$(vagrant_param_echo_version $1)
+  version=$(vagrant_get_php_ver)
   phptype=$(vagrant_param_echo_phptype $2)
   vagrant ssh -c "sudo mv /etc/php/$version/$phptype/conf.d/20-xdebug.ini /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled"
 }
 alias vagrant_debug_is_enabled='vagrant ssh -c "php -i | grep xdebug.support"'
-
-jira() {
-  open "http://codeandtheory.atlassian.net/browse/$1"
-}
 drush_vdebug () {
   USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
   USAGE+=$'ARGUMENTS:\n'
@@ -85,17 +99,26 @@ if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
+if [ $ITERM_SESSION_ID ] && [ -z ${PROMPT_COMMAND+x} ]; then
+  export PROMPT_COMMAND='echo -ne "\033];${PWD##*/}\007"; ':"$PROMPT_COMMAND";
+fi
+
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWCOLORHINTS=true
 #GIT_PS1_SHOWUNTRACKEDFILES=true
-PS1=' [\w \t\[\033[0;32m\]$(__git_ps1 " (%s)")\[\033[0m\]]\n$ '
-#PROMPT_COMMAND='__git_ps1 "\w \t" "\n \$ "'
+RESET="\033[0m";
+BLUE="\033[38;5;63m";
+PS1='[\w \t\[\033[0;32m\]$(__git_ps1 " (%s)")'"\["$RESET"\]]\n"
+PS1+="\["$BLUE"\]⇒  \["$RESET"\]"
 
-# Updates PATH for the Google Cloud SDK.
-source '/Users/petermallett/workspace/google-cloud-sdk/path.bash.inc'
-# Enable bash completion for gcloud.
-source '/Users/petermallett/workspace/google-cloud-sdk/completion.bash.inc'
+enter_directory() {
+  if [[ $PWD == $PREV_PWD ]]; then
+    return
+  fi
 
-# Init rbenv
-eval "$(rbenv init -)"
+  PREV_PWD=$PWD
+  [[ -f ".nvmrc" ]] && nvm use
+}
+
+export PROMPT_COMMAND=enter_directory

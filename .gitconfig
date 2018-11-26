@@ -5,7 +5,7 @@
 	excludesfile = /Users/petermallett/.gitignore_global
 	autocrlf = input
 	safecrlf = false
-	ignorecase = false
+	ignorecase = true
 	editor = vim
 	filemode = true
 	pager = less -r

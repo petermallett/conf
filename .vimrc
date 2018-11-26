@@ -45,7 +45,6 @@ if has("gui_running")
   set lines=55
   set columns=100
   set background=light
-  set cursorline
   colorscheme solarized
 
   function! ToggleGUICruft()
@@ -131,12 +130,16 @@ endif
 " Vim-plug https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'
+Plug 'sjl/gundo.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'justmao945/vim-clang'
 " Using vim-clang for now because I can't figure out how to get clang_complete
 " to build properly
 " Plug 'Rip-Rip/clang_complete'
 call plug#end()
+
+" toggle gundo
+nnoremap <leader>u :GundoToggle<CR>
 
 augroup quickfix
     autocmd!
