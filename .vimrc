@@ -1,4 +1,3 @@
-execute pathogen#infect()
 
 " Remap window movements
 nnoremap <C-J> <C-W><C-J>
@@ -129,7 +128,6 @@ endif
 
 " Vim-plug https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
-Plug 'tomtom/tcomment_vim'
 Plug 'sjl/gundo.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'justmao945/vim-clang'
