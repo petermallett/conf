@@ -44,7 +44,7 @@ if has("gui_running")
   set lines=55
   set columns=100
   set background=light
-  colorscheme solarized
+  colorscheme solarized8
 
   function! ToggleGUICruft()
     if &guioptions=='i'
@@ -128,6 +128,7 @@ endif
 
 " Vim-plug https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
+Plug 'lifepillar/vim-solarized8'
 Plug 'sjl/gundo.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'justmao945/vim-clang'
@@ -170,10 +171,6 @@ function! s:insert_gates()
   normal! kk
 endfunction
 autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
-
-" python from powerline.vim import setup as powerline_setup
-" python powerline_setup()
-" python del powerline_setup
 
 " Load custom .vimrc.local files in the CWD when vim is run
 " let b:searchdir=expand("%:p:h")
