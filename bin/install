@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ $HOME != $PWD ]; then
+  echo "Run this from the home directory. eg:"
+  echo "> cd ~; ./conf/bin/install"
+  exit 1
+fi
+
+ln -s conf/.ackrc ~
+ln -s conf/.bash_profile ~
+ln -s conf/.bashrc ~
+ln -s conf/.gitconfig ~
+ln -s conf/.gitignore ~
+ln -s conf/.gitignore_global ~
+ln -s conf/.profile ~
+ln -s conf/.vim ~
+ln -s conf/.vimrc ~
+ln -s conf/bin ~
