@@ -1,0 +1,56 @@
+#!/bin/bash
+
+usage()
+{
+cat << EOF
+Usage: vagrant-xdebug.sh [type] [enable|disable]
+
+ex.
+  vagrant-xdebug.sh fpm enable
+
+ARGUMENTS:
+   type:   php type to act on, cli, fpm, apache2
+   action: enable or disable
+EOF
+}
+
+TYPE=$1
+if [[ -z "${TYPE}" ]]; then
+  usage; exit 1
+fi
+
+# Defaults to cli if no type option is supplied
+if [[ $TYPE != "cli" && $TYPE != "fpm" && $TYPE != "apache2" ]]; then
+  if [[ $TYPE == "enable" || $TYPE == "disable" ]]; then
+    ACTION=$TYPE
+    TYPE="cli"
+  else
+    echo "$TYPE is not a valid PHP type, defaulting to cli"
+    TYPE="cli"
+  fi
+fi
+
+if [[ -z "${ACTION}" ]]; then
+  ACTION=$2
+fi
+
+if [[ -z "${ACTION}" ]]; then
+  echo "Please supply an action: enable or disable."
+  usage; exit 1
+fi
+
+if [[ $ACTION != "enable" && $ACTION != "disable" ]]; then
+  echo "$ACTION is not a valid action."
+  usage; exit 1
+fi
+
+# Get the PHP version from the machine
+VER=$(vagrant ssh -c "php -r \"echo PHP_VERSION;\"")
+VER=${VER:0:3}
+
+echo "$ACTION xdebug for PHP $VER $TYPE"
+if [[ $ACTION == "enable" ]]; then
+  vagrant ssh -c "sudo mv /etc/php/$VER/$TYPE/conf.d/20-xdebug.ini.disabled /etc/php/$version/$phptype/conf.d/20-xdebug.ini"
+else
+  vagrant ssh -c "sudo mv /etc/php/$VER/$TYPE/conf.d/20-xdebug.ini /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled"
+fi

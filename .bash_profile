@@ -26,25 +26,7 @@ jira() {
   open "http://codeandtheory.atlassian.net/browse/$1"
 }
 
-alias debug_cmdlist='echo vagrant_debug_enable vagrant_debug_disable vagrant_debug_is_enabled drush_vdebug'
-vagrant_get_php_ver() {
-  VER=$(vagrant ssh -c "php -r \"echo PHP_VERSION;\"")
-  echo ${VER:0:3}
-}
-vagrant_param_echo_phptype () {
-  DEFAULT=cli
-  echo ${1-$DEFAULT}
-}
-vagrant_debug_enable () {
-  version=$(vagrant_get_php_ver)
-  phptype=$(vagrant_param_echo_phptype $2)
-  vagrant ssh -c "sudo mv /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled /etc/php/$version/$phptype/conf.d/20-xdebug.ini"
-}
-vagrant_debug_disable () {
-  version=$(vagrant_get_php_ver)
-  phptype=$(vagrant_param_echo_phptype $2)
-  vagrant ssh -c "sudo mv /etc/php/$version/$phptype/conf.d/20-xdebug.ini /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled"
-}
+alias debug_cmdlist='echo vagrant-xdebug [enable|disable] vagrant_debug_is_enabled drush_vdebug'
 alias vagrant_debug_is_enabled='vagrant ssh -c "php -i | grep xdebug.support"'
 drush_vdebug () {
   USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
