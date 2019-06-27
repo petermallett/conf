@@ -40,7 +40,20 @@ set colorcolumn=81
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
+" Vim-plug https://github.com/junegunn/vim-plug
+call plug#begin()
+Plug 'tomtom/tcomment_vim'
+Plug 'justmao945/vim-clang'
+Plug 'lifepillar/vim-solarized8'
+Plug 'sjl/gundo.vim'
+Plug 'skywind3000/asyncrun.vim'
+" Using vim-clang for now because I can't figure out how to get clang_complete
+" to build properly
+" Plug 'Rip-Rip/clang_complete'
+call plug#end()
+
 if has("gui_running")
+  set termguicolors
   set lines=55
   set columns=100
   set background=light
@@ -60,7 +73,7 @@ if has("gui_running")
   set guioptions=i
 
   if has("gui_win32")
-    set lines=80 columns=220 linespace=0
+    set lines=75 columns=120 linespace=0
     set background=dark
     set guifont=Consolas:h11:cANSI
 
@@ -125,17 +138,6 @@ au FileType gitcommit setlocal spell
 if &diff
   set columns=200
 endif
-
-" Vim-plug https://github.com/junegunn/vim-plug
-call plug#begin('~/.vim/plugged')
-Plug 'lifepillar/vim-solarized8'
-Plug 'sjl/gundo.vim'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'justmao945/vim-clang'
-" Using vim-clang for now because I can't figure out how to get clang_complete
-" to build properly
-" Plug 'Rip-Rip/clang_complete'
-call plug#end()
 
 " toggle gundo
 nnoremap <leader>u :GundoToggle<CR>
