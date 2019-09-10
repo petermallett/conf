@@ -1,22 +1,29 @@
 
 source ~/.bash_private
 export PATH=/usr/local/sbin:$HOME/bin:$HOME/.composer/vendor/bin:$PATH
+export GOPATH=~/workspace/go
+
+export CLICOLOR=1
 
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 [[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 
-alias gitinfo="git-info.sh | less"
 alias gitl="git log --oneline --decorate --graph"
 alias gitsrp="git stash; git rebase; git stash pop"
 alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k|head -n 1)\\t$k;done|sort -r'
 alias git-shame='git-branches-by-commit-date.sh'
-alias gitx="open /Applications/GitX.app ."
-alias termtitle='name=`hostname` echo -n -e "\033]0;$name\007"'
+alias proj='cd ~/workspace/ddev'
+alias composer-install-prod='composer install --no-ansi --no-dev --no-progress --prefer-dist --optimize-autoloader'
 alias drushmc='drush $(drush sa | grep ^@\.*\.mcdev)'
+alias ddx='ddev . disable_xdebug'
+alias dex='ddev . enable_xdebug'
+# ddev . 'PHP_IDE_CONFIG="serverName=[servername]" drush [drush command]'
+# ddev . 'PHP_IDE_CONFIG="serverName=cms-magmutual.ddev.local" drush mim upgrade_d7_node_article --idlist=10526'
 # alias git-delete-merged-remotes="git branch -a --merged |grep feature | sed 's|remotes/origin/||' |xargs git push origin --delete"
-
-# { eval `ssh-agent`; ssh-add -A; } &>/dev/null
+termtitle() {
+  name=`hostname` echo -n -e "\033]0;$1 $name\007"
+}
 
 bit() {
   NAME=$(basename `git rev-parse --show-toplevel`)
@@ -26,8 +33,9 @@ jira() {
   open "http://codeandtheory.atlassian.net/browse/$1"
 }
 
-alias debug_cmdlist='echo vagrant-xdebug [enable|disable] vagrant_debug_is_enabled drush_vdebug'
+alias vagrant-cmdlist='echo vagrant-xdebug [enable|disable] vagrant_debug_is_enabled drush_vdebug'
 alias vagrant_debug_is_enabled='vagrant ssh -c "php -i | grep xdebug.support"'
+# ddev . 'export PHP_IDE_CONFIG="serverName=cms-magmutual.ddev.local"; drush mim upgrade_d7_node_article'
 drush_vdebug () {
   USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
   USAGE+=$'ARGUMENTS:\n'
@@ -55,10 +63,7 @@ drush_vdebug7 () {
   vagrant ssh -c "$SSHCOMMAND"
 }
 
-
 alias gvimdiff='mvim -d'
-
-export CLICOLOR=1
 
 up () {
   if [ -z $1 ]; then
@@ -81,10 +86,6 @@ if [ -f `brew --prefix`/etc/bash_completion ]; then
   . `brew --prefix`/etc/bash_completion
 fi
 
-if [ $ITERM_SESSION_ID ] && [ -z ${PROMPT_COMMAND+x} ]; then
-  export PROMPT_COMMAND='echo -ne "\033];${PWD##*/}\007"; ':"$PROMPT_COMMAND";
-fi
-
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWCOLORHINTS=true
@@ -102,5 +103,12 @@ enter_directory() {
   PREV_PWD=$PWD
   [[ -f ".nvmrc" ]] && nvm use
 }
-
 export PROMPT_COMMAND=enter_directory
+
+if [ $ITERM_SESSION_ID ]; then
+  export PROMPT_COMMAND='echo -ne "\033];${PWD##*/}\007"; '"$PROMPT_COMMAND";
+fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/usr/local/opt/php@7.2/bin:$PATH"
+export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
