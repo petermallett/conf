@@ -1,10 +1,4 @@
 
-" Remap window movements
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
 set encoding=utf-8
 set ruler number
 syntax on
@@ -12,6 +6,24 @@ set showcmd
 autocmd BufEnter * silent! lcd %:p:h
 let mapleader = ","
 set switchbuf=useopen
+
+" Vim-plug https://github.com/junegunn/vim-plug
+call plug#begin()
+Plug 'tomtom/tcomment_vim'
+Plug 'justmao945/vim-clang'
+Plug 'lifepillar/vim-solarized8'
+Plug 'sjl/gundo.vim'
+Plug 'skywind3000/asyncrun.vim'
+" Using vim-clang for now because I can't figure out how to get clang_complete
+" to build properly
+" Plug 'Rip-Rip/clang_complete'
+call plug#end()
+
+" Remap window movements
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " Show file options above the command line
 set wildmenu
@@ -39,18 +51,6 @@ set colorcolumn=81
 " Highlight searches. Space unhighlights everything.
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
-
-" Vim-plug https://github.com/junegunn/vim-plug
-call plug#begin()
-Plug 'tomtom/tcomment_vim'
-Plug 'justmao945/vim-clang'
-Plug 'lifepillar/vim-solarized8'
-Plug 'sjl/gundo.vim'
-Plug 'skywind3000/asyncrun.vim'
-" Using vim-clang for now because I can't figure out how to get clang_complete
-" to build properly
-" Plug 'Rip-Rip/clang_complete'
-call plug#end()
 
 if has("gui_running")
   set termguicolors
@@ -148,15 +148,6 @@ augroup quickfix
     autocmd QuickFixCmdPost * copen
 augroup END
 
-function! DoBuildBatchFile()
-  AsyncRun! w:\handmade\code\build.bat
-  copen
-endfunction
-noremap <leader>m :w<CR>:call DoBuildBatchFile()<CR>
-function! DoRun()
-  AsyncRun! PowerShell -Command "Start-Process -FilePath w:\build\win32_handmade.exe -WorkingDirectory w:\handmade"
-endfunction
-noremap <leader>r :call DoRun()<CR>
 "Go to next error
 nnoremap <F6> <C-O>:cn<CR>
 "Go to previous error
@@ -174,13 +165,13 @@ function! s:insert_gates()
 endfunction
 autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
 
-" Load custom .vimrc.local files in the CWD when vim is run
-" let b:searchdir=expand("%:p:h")
-" while b:searchdir != '/'
-"   let b:vim=b:searchdir."/.vimrc.local"
-"   if (filereadable(b:vim))
-"     execute "source ".b:vim
-"     break
-"   endif
-"   let b:searchdir=fnamemodify(b:searchdir, ':h')
-" endwhile
+" Handmade specific
+function! DoBuildBatchFile()
+  AsyncRun! w:\handmade\code\build.bat
+  copen
+endfunction
+noremap <leader>m :w<CR>:call DoBuildBatchFile()<CR>
+function! DoRun()
+  AsyncRun! PowerShell -Command "Start-Process -FilePath w:\build\win32_handmade.exe -WorkingDirectory w:\handmade"
+endfunction
+noremap <leader>r :call DoRun()<CR>
