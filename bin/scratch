@@ -1,0 +1,33 @@
+#!/usr/bin/php
+<?php
+
+$tools = [];
+
+load_tools();
+
+if (count($argv) < 2) {
+  usage();
+  exit(1);
+}
+
+function load_tools() {
+  $dir = opendir(dirname(__FILE__) . '/_tools');
+  while ($file = readdir($dir)) {
+    echo $file . PHP_EOL;
+  }
+}
+
+function usage() {
+  global $tools;
+
+  echo<<<USAGE
+usage: scratch <command> [<args>]
+
+available commands:
+USAGE;
+
+  foreach ($tools as $tool) {
+    echo $tool->name . PHP_EOL;
+  }
+
+}
