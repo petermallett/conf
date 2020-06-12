@@ -11,12 +11,12 @@ set switchbuf=useopen
 call plug#begin()
 Plug 'tomtom/tcomment_vim'
 Plug 'justmao945/vim-clang'
-Plug 'lifepillar/vim-solarized8'
-Plug 'sjl/gundo.vim'
-Plug 'skywind3000/asyncrun.vim'
 " Using vim-clang for now because I can't figure out how to get clang_complete
 " to build properly
 " Plug 'Rip-Rip/clang_complete'
+Plug 'lifepillar/vim-solarized8'
+Plug 'sjl/gundo.vim'
+Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
 " Remap window movements

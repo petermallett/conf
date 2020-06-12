@@ -1,3 +1,4 @@
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 source ~/.bash_private
 export PATH=/usr/local/sbin:$HOME/bin:$HOME/.composer/vendor/bin:$PATH
@@ -15,52 +16,23 @@ alias gitlast='for k in $(git branch|perl -pe s/^..//);do echo -e $(git show --p
 alias git-shame='git-branches-by-commit-date.sh'
 alias proj='cd ~/workspace/ddev'
 alias composer-install-prod='composer install --no-ansi --no-dev --no-progress --prefer-dist --optimize-autoloader'
+alias composer-memory='COMPOSER_MEMORY_LIMIT=-1 composer'
 alias drushmc='drush $(drush sa | grep ^@\.*\.mcdev)'
-alias ddx='ddev . disable_xdebug'
-alias dex='ddev . enable_xdebug'
-# ddev . 'PHP_IDE_CONFIG="serverName=[servername]" drush [drush command]'
-# ddev . 'PHP_IDE_CONFIG="serverName=cms-magmutual.ddev.local" drush mim upgrade_d7_node_article --idlist=10526'
+alias ddrush='ddev . drush'
+export DRUSH_LAUNCHER_FALLBACK=/usr/local/bin/drush8
+alias python=python3
+alias tmuxa='tmux attach-session -t'
+alias update-core='composer update drupal/core webflo/drupal-core-require-dev --with-dependencies'
+# ddev . 'PHP_IDE_CONFIG="serverName=[servername]" ../vendor/drush/drush/drush [drush command]'
 # alias git-delete-merged-remotes="git branch -a --merged |grep feature | sed 's|remotes/origin/||' |xargs git push origin --delete"
 termtitle() {
   name=`hostname` echo -n -e "\033]0;$1 $name\007"
 }
 
 bit() {
-  NAME=$(basename `git rev-parse --show-toplevel`)
-  open "https://bitbucket.org/mediacurrent/$NAME/branch/$1"
-}
-jira() {
-  open "http://codeandtheory.atlassian.net/browse/$1"
-}
-
-alias vagrant-cmdlist='echo vagrant-xdebug [enable|disable] vagrant_debug_is_enabled drush_vdebug'
-alias vagrant_debug_is_enabled='vagrant ssh -c "php -i | grep xdebug.support"'
-# ddev . 'export PHP_IDE_CONFIG="serverName=cms-magmutual.ddev.local"; drush mim upgrade_d7_node_article'
-drush_vdebug () {
-  USAGE=$'Usage: drush_vdebug <servername> --uri=http://site.mcdev <drush-command>\n\n'
-  USAGE+=$'ARGUMENTS:\n'
-  USAGE+=$'  <servername>: The server configuration name in PHPStorm\n'
-  USAGE+=$'  <drush-command>: The Drush command followed by any additional arguments for Drush'
-
-  if [[ $# -lt 3 ]]; then
-    echo "$USAGE"
-    return 1
-  fi
-
-  SERVERNAME="$1"
-  shift 1
-  SSHCOMMAND="export PHP_IDE_CONFIG=\"serverName=$SERVERNAME\"; export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; cd docroot/web; ../vendor/drush/drush/drush.launcher $@"
-
-  echo "Executing SSH Command: \"$SSHCOMMAND\""
-  vagrant ssh -c "$SSHCOMMAND"
-}
-drush_vdebug7 () {
-  SERVERNAME="$1"
-  shift 1
-  SSHCOMMAND="export PHP_IDE_CONFIG=\"serverName=$SERVERNAME\"; export XDEBUG_CONFIG=\"idekey=PHPSTORM\"; cd docroot; drush $@"
-
-  echo "Executing SSH Command: \"$SSHCOMMAND\""
-  vagrant ssh -c "$SSHCOMMAND"
+  NAME=$(basename $(git rev-parse --show-toplevel))
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  open "https://bitbucket.org/mediacurrent/"$NAME"/branch/$BRANCH"
 }
 
 alias gvimdiff='mvim -d'
@@ -110,5 +82,7 @@ if [ $ITERM_SESSION_ID ]; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/usr/local/opt/php@7.2/bin:$PATH"
-export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
+export PATH="/usr/local/opt/php@7.3/bin:$PATH"
+export PATH="/usr/local/opt/php@7.3/sbin:$PATH"
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash" || true
