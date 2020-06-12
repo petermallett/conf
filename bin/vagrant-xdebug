@@ -50,7 +50,7 @@ VER=${VER:0:3}
 
 echo "$ACTION xdebug for PHP $VER $TYPE"
 if [[ $ACTION == "enable" ]]; then
-  vagrant ssh -c "sudo mv /etc/php/$VER/$TYPE/conf.d/20-xdebug.ini.disabled /etc/php/$version/$phptype/conf.d/20-xdebug.ini"
+  vagrant ssh -c "cd /etc/php/$VER/$TYPE/conf.d; sudo mv 20-xdebug.ini.disabled 20-xdebug.ini"
 else
-  vagrant ssh -c "sudo mv /etc/php/$VER/$TYPE/conf.d/20-xdebug.ini /etc/php/$version/$phptype/conf.d/20-xdebug.ini.disabled"
+  vagrant ssh -c "cd /etc/php/$VER/$TYPE/conf.d; sudo mv 20-xdebug.ini 20-xdebug.ini.disabled"
 fi
