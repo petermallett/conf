@@ -1,0 +1,6 @@
+set line-graphics = utf-8
+
+set main-view-id-display = yes
+set main-view-commit-title-overflow = 50
+set main-view-author-display = abbreviated
+set main-view-date-display = relative-compact

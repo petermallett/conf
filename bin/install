@@ -13,6 +13,7 @@ ln -s conf/.gitconfig ~
 ln -s conf/.gitignore ~
 ln -s conf/.gitignore_global ~
 ln -s conf/.profile ~
+ln -s conf/.tigrc ~
 ln -s conf/.tmux.conf ~
 ln -s conf/.vim ~
 ln -s conf/.vimrc ~
