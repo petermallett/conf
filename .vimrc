@@ -1,4 +1,10 @@
 
+" Remap window movements
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 set encoding=utf-8
 set ruler number
 syntax on
@@ -6,24 +12,6 @@ set showcmd
 autocmd BufEnter * silent! lcd %:p:h
 let mapleader = ","
 set switchbuf=useopen
-
-" Vim-plug https://github.com/junegunn/vim-plug
-call plug#begin()
-Plug 'tomtom/tcomment_vim'
-Plug 'justmao945/vim-clang'
-" Using vim-clang for now because I can't figure out how to get clang_complete
-" to build properly
-" Plug 'Rip-Rip/clang_complete'
-Plug 'lifepillar/vim-solarized8'
-Plug 'sjl/gundo.vim'
-Plug 'skywind3000/asyncrun.vim'
-call plug#end()
-
-" Remap window movements
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
 
 " Show file options above the command line
 set wildmenu
@@ -52,6 +40,18 @@ set colorcolumn=81
 set hlsearch
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
+" Vim-plug https://github.com/junegunn/vim-plug
+call plug#begin()
+Plug 'tomtom/tcomment_vim'
+Plug 'justmao945/vim-clang'
+Plug 'lifepillar/vim-solarized8'
+Plug 'sjl/gundo.vim'
+Plug 'skywind3000/asyncrun.vim'
+" Using vim-clang for now because I can't figure out how to get clang_complete
+" to build properly
+" Plug 'Rip-Rip/clang_complete'
+call plug#end()
+
 if has("gui_running")
   set termguicolors
   set lines=55
@@ -73,7 +73,7 @@ if has("gui_running")
   set guioptions=i
 
   if has("gui_win32")
-    set lines=75 columns=120 linespace=0
+    set lines=74 columns=240 linespace=0
     set background=dark
     set guifont=Consolas:h11:cANSI
 
@@ -102,6 +102,7 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 augroup c_cpp
   au BufRead,BufNewFile *.cpp,*.h set tabstop=4 shiftwidth=4
   au BufRead,BufNewFile *.cpp,*.h set nowrap
+  au BufRead,BufNewFile *.cpp,*.h set cinoptions=(0
 augroup END
 
 augroup drupal_module
@@ -145,9 +146,20 @@ nnoremap <leader>u :GundoToggle<CR>
 augroup quickfix
     autocmd!
     autocmd FileType qf setlocal wrap
+    autocmd FileType qf wincmd J
     autocmd QuickFixCmdPost * copen
 augroup END
 
+function! DoBuildBatchFile()
+  " AsyncRun! w:\handmade\code\build.bat
+  AsyncRun! build.bat
+  copen
+endfunction
+noremap <leader>m :w<CR>:call DoBuildBatchFile()<CR>
+function! DoRun()
+  AsyncRun! PowerShell -Command "Start-Process -FilePath w:\build\win32_handmade.exe -WorkingDirectory w:\handmade"
+endfunction
+noremap <leader>r :call DoRun()<CR>
 "Go to next error
 nnoremap <F6> <C-O>:cn<CR>
 "Go to previous error
@@ -164,14 +176,3 @@ function! s:insert_gates()
   normal! kk
 endfunction
 autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
-
-" Handmade specific
-function! DoBuildBatchFile()
-  AsyncRun! w:\handmade\code\build.bat
-  copen
-endfunction
-noremap <leader>m :w<CR>:call DoBuildBatchFile()<CR>
-function! DoRun()
-  AsyncRun! PowerShell -Command "Start-Process -FilePath w:\build\win32_handmade.exe -WorkingDirectory w:\handmade"
-endfunction
-noremap <leader>r :call DoRun()<CR>
