@@ -6,16 +6,14 @@ if [ $HOME != $PWD ]; then
   exit 1
 fi
 
-ln -s conf/.ackrc ~
-ln -s conf/.bash_profile ~
-ln -s conf/.bashrc ~
-ln -s conf/.gitconfig ~
-ln -s conf/.gitignore ~
-ln -s conf/.gitignore_global ~
-ln -s conf/.profile ~
-ln -s conf/.tigrc ~
-ln -s conf/.tmux.conf ~
-ln -s conf/.vim ~
-ln -s conf/.vimrc ~
-ln -s conf/bin ~
-ln -s conf/tmux.conf ~
+skip_files=(. .. .git README.md)
+for f in $PWD/conf/.*
+do
+    skip_this=0
+    name=$(basename "$f")
+
+    for g in "${skip_files[@]}" ; do
+        [ "$name" = "$g" ] && skip_this=1
+    done
+    [ "$skip_this" = 0 ] && ln -s "$f" ~
+done
