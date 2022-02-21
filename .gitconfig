@@ -2,7 +2,7 @@
 	name = Peter Mallett
 	email = peter.mallett@mediacurrent.com
 [core]
-	excludesfile = /Users/petermallett/.gitignore_global
+	excludesfile = /Users/pmallett/.gitignore_global
 	autocrlf = input
 	safecrlf = false
 	ignorecase = true
@@ -31,3 +31,5 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[pull]
+	ff = only
