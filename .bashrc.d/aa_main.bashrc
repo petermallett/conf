@@ -8,13 +8,8 @@ OPEN_COMMAND=xdg-open
 
 #export PATH="/usr/local/opt/php@7.4/bin:$PATH"
 #export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
-export PATH=/usr/local/sbin:$HOME/bin:$PATH:$HOME/.composer/vendor/bin
 
 export CLICOLOR=1
-
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 
 alias proj='cd ~/workspace/ddev'
 alias composer-install-prod='composer install --no-ansi --no-dev --no-progress --prefer-dist --optimize-autoloader'
@@ -66,4 +61,5 @@ fi
 # BLUE="\033[38;5;63m";
 # PS1='[\w \t\[\033[0;32m\]$(__git_ps1 " (%s)")'"\["$RESET"\]]\n"
 # PS1+="\["$BLUE"\]⇒  \["$RESET"\]"
-. "$HOME/.cargo/env"
+
+# . "$HOME/.cargo/env"
