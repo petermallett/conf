@@ -4,6 +4,9 @@ source ~/.bash_private
 # OPEN_COMMAND=open
 OPEN_COMMAND=xdg-open
 
+# Use bash-completion, if available
+# [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    # . /usr/share/bash-completion/bash_completion
 #[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 #export PATH="/usr/local/opt/php@7.4/bin:$PATH"
@@ -46,20 +49,11 @@ enter_directory() {
   if [[ $PWD == $PREV_PWD ]]; then
     return
   fi
-
   PREV_PWD=$PWD
+
   [[ -f ".nvmrc" ]] && nvm use
+  [[ -f ".toolboxrc" ]] && toolbox-use
 }
 export PROMPT_COMMAND=enter_directory
-
-if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
-  __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
-  source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
-fi
-
-# RESET="\033[0m";
-# BLUE="\033[38;5;63m";
-# PS1='[\w \t\[\033[0;32m\]$(__git_ps1 " (%s)")'"\["$RESET"\]]\n"
-# PS1+="\["$BLUE"\]⇒  \["$RESET"\]"
 
 # . "$HOME/.cargo/env"
