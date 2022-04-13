@@ -1,8 +1,8 @@
 [user]
 	name = Peter Mallett
-	email = peter.mallett@mediacurrent.com
+	email = pmallett@redhat.com
 [core]
-	excludesfile = /Users/pmallett/.gitignore_global
+	excludesFile = ~/.gitignore
 	autocrlf = input
 	safecrlf = false
 	ignorecase = true
@@ -33,3 +33,5 @@
 	clean = git-lfs clean -- %f
 [pull]
 	ff = only
+[init]
+	defaultBranch = main
