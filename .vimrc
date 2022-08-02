@@ -22,7 +22,11 @@ highlight nonascii guibg=Red ctermbg=2
 
 " Make tab act right.
 set tabstop=2 shiftwidth=2 expandtab smartindent autoindent
-autocmd BufRead,BufNewFile *.java set tabstop=4 shiftwidth=4
+
+augroup java
+  autocmd!
+  autocmd BufRead,BufNewFile *.java set tabstop=4 shiftwidth=4
+augroup END
 
 " make backspace work like most other apps
 set backspace=2
@@ -107,12 +111,16 @@ highlight BadWhitespace ctermbg=red guibg=darkred
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 augroup c_cpp
-  au BufRead,BufNewFile *.cpp,*.h set tabstop=4 shiftwidth=4
-  au BufRead,BufNewFile *.cpp,*.h set nowrap
-  au BufRead,BufNewFile *.cpp,*.h set cinoptions=(0
+  autocmd!
+  au BufRead,BufNewFile *.cpp,*.h
+      \ set tabstop=4 shiftwidth=4
+      \ set nowrap
+      \ set cinoptions=(0
+  au BufRead,BufNewFile Makefile set tabstop=4
 augroup END
 
 augroup drupal_module
+  autocmd!
   au BufRead,BufNewFile *.module set filetype=php
   au BufRead,BufNewFile *.install set filetype=php
   au BufRead,BufNewFile *.test set filetype=php
@@ -122,6 +130,7 @@ augroup drupal_module
 augroup END
 
 augroup python
+  autocmd!
   au BufNewFile,BufRead *.py
         \ set tabstop=4 |
         \ set softtabstop=4 |
@@ -133,6 +142,7 @@ augroup python
 augroup END
 
 augroup html
+  autocmd!
   au BufRead,BufNewFile *.less set filetype=css
   au BufNewFile,BufRead *.js,*.html,*.css,*.sass
         \ set tabstop=2 |
@@ -182,4 +192,8 @@ function! s:insert_gates()
   execute "normal! Go#endif"
   normal! kk
 endfunction
-autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
+
+augroup c_cpp_headers
+  autocmd!
+  autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
+augroup END

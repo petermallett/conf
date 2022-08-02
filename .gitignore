@@ -2,3 +2,5 @@
 .vim/plugged
 _scratch
 .toolboxrc
+.idea
+_gi_*

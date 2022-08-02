@@ -1,11 +1,18 @@
-# TODO: adapt these to gitlab commands
+# Set GITLAB_BASE_URL in ~/.bash_private
 
-bit() {
-  NAME=$(basename $(git rev-parse --show-toplevel))
+# Open current branch in Gitlab
+glo () {
+  REMOTE=$(git config --get remote.origin.url)
+  REPO=${REMOTE#*:}
+  REPO=${REPO%.*}
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  open "https://bitbucket.org/mediacurrent/"$NAME"/branch/$BRANCH"
+  bash_open "$GITLAB_BASE_URL/"$REPO"/-/tree/"$BRANCH""
 }
-bitpr() {
-  NAME=$(basename $(git rev-parse --show-toplevel))
-  open "https://bitbucket.org/mediacurrent/"$NAME"/pull-requests/"
+
+# Open current repo MRs in Gitlab
+glmr () {
+  REMOTE=$(git config --get remote.origin.url)
+  REPO=${REMOTE#*:}
+  REPO=${REPO%.*}
+  bash_open "$GITLAB_BASE_URL/"$REPO"/-/merge_requests"
 }

@@ -1,17 +1,29 @@
+# Set JIRA_BASE_URL in ~/.bash_private
+
 jira() {
-  if echo "$1" | grep '[0-9]' >/dev/null; then
-    if [ -z ${2+x} ]; then
-      TICKETBASE=ITMKTGDES
+  # if no argument, open to projects
+  # if argument is a number, open DES issue
+  # if argument has a number, but starts with a letter, open issue
+  # directly
+
+  if [[ $1 =~ [0-9] ]]; then
+    if [[ $1 =~ ^[0-9] ]]; then
+      TICKETBASE=ITMKTGDES-
     else
       TICKETBASE=""
     fi
 
-    $OPEN_COMMAND "$JIRA_BASE_URL/browse/$TICKETBASE-$1" > /dev/null 2>&1
+    bash_open "$JIRA_BASE_URL/browse/$TICKETBASE$1"
   else
-    $OPEN_COMMAND "$JIRA_BASE_URL/projects/$1" > /dev/null 2>&1
+    bash_open "$JIRA_BASE_URL/projects/$1"
   fi
 }
 
+jira-des() {
+  wl-copy -n "ITMKTGDES-$1"
+}
+
+#TODO: what URL should this have?
 wiki() {
-  $OPEN_COMMAND "$JIRA_BASE_URL/wiki/spaces/$1" > /dev/null 2>&1
+    bash_open "$JIRA_BASE_URL/wiki/spaces/$1"
 }

@@ -1,8 +1,10 @@
 # Defines for [Homebrew Github personal token, JIRA_BASE_URL, etc]
 source ~/.bash_private
 
-# OPEN_COMMAND=open
-OPEN_COMMAND=xdg-open
+bash_open () {
+  # open "$1"
+  xdg-open "$1" > /dev/null 2>&1
+}
 
 # Use bash-completion, if available
 # [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
@@ -18,6 +20,7 @@ alias proj='cd ~/workspace/ddev'
 alias composer-install-prod='composer install --no-ansi --no-dev --no-progress --prefer-dist --optimize-autoloader'
 alias composer-memory='COMPOSER_MEMORY_LIMIT=-1 composer'
 alias ddr='ddev drush'
+alias lsd='ls --color -lh --group-directories-first'
 # Drush 7 fallback installed via global composer require
 # https://docs.drush.org/en/7.x/install/
 # export DRUSH_LAUNCHER_FALLBACK=$HOME/.composer/vendor/bin/drush
@@ -27,6 +30,15 @@ alias tmuxa='tmux attach-session -t'
 alias update-core='composer update drupal/core webflo/drupal-core-require-dev --with-dependencies'
 # ddev . 'PHP_IDE_CONFIG="serverName=[servername]" ../vendor/drush/drush/drush [drush command]'
 # alias git-delete-merged-remotes="git branch -a --merged |grep feature | sed 's|remotes/origin/||' |xargs git push origin --delete"
+
+loho () {
+  if echo "$1" | grep '[0-9]' >/dev/null; then
+    PORT=$1
+  else
+    PORT=3000
+  fi
+  bash_open "http://localhost:$PORT"
+}
 
 up () {
   if [ -z $1 ]; then
