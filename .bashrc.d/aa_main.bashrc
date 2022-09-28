@@ -6,14 +6,6 @@ bash_open () {
   xdg-open "$1" > /dev/null 2>&1
 }
 
-# Use bash-completion, if available
-# [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    # . /usr/share/bash-completion/bash_completion
-#[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
-
-#export PATH="/usr/local/opt/php@7.4/bin:$PATH"
-#export PATH="/usr/local/opt/php@7.4/sbin:$PATH"
-
 export CLICOLOR=1
 
 alias proj='cd ~/workspace/ddev'
@@ -56,16 +48,3 @@ up () {
   fi
   pwd
 }
-
-enter_directory() {
-  if [[ $PWD == $PREV_PWD ]]; then
-    return
-  fi
-  PREV_PWD=$PWD
-
-  [[ -f ".nvmrc" ]] && nvm use
-  [[ -f ".toolboxrc" ]] && toolbox-use
-}
-export PROMPT_COMMAND=enter_directory
-
-# . "$HOME/.cargo/env"
