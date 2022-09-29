@@ -6,7 +6,7 @@
  * @return string password
  */
 function generatePassword($length = 24) {
-  if(function_exists('openssl_random_pseudo_bytes')) {
+  if (function_exists('openssl_random_pseudo_bytes')) {
     $password = base64_encode(openssl_random_pseudo_bytes($length, $strong));
     if ($strong == TRUE) {
       // base64 is about 33% longer, so truncate the result.
@@ -16,7 +16,7 @@ function generatePassword($length = 24) {
 
   // Fallback to mt_rand if php < 5.3 or no openssl available.
   $characters = '0123456789';
-  $characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/+'; 
+  $characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/+';
   $charactersLength = strlen($characters)-1;
   $password = '';
 

@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# TODO: Move to bash config to make use of platform-specific "open" cmd.
 
 REMOTE_URL=$(git remote get-url --push origin 2> /dev/null)
 
