@@ -14,9 +14,11 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 
+" Set up colors
+set background=dark
 colorscheme solarized8
 " colorscheme gruvbox
-set background=dark
+au ColorScheme * hi Normal ctermbg=NONE guibg=NONE
 
 " Remap window movements
 nnoremap <C-J> <C-W><C-J>
@@ -36,16 +38,28 @@ set switchbuf=useopen
 " Make tab act right.
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent autoindent
 
+" Make backspace work like most other apps
+set backspace=indent,eol,start
+
+" Use a line cursor within insert mode and a block cursor everywhere else.
+"
+" Reference chart of values:
+"   Ps = 0  -> blinking block.
+"   Ps = 1  -> blinking block (default).
+"   Ps = 2  -> steady block.
+"   Ps = 3  -> blinking underline.
+"   Ps = 4  -> steady underline.
+"   Ps = 5  -> blinking bar (xterm).
+"   Ps = 6  -> steady bar (xterm).
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[1 q"
+
 " Show file options above the command line
 set wildmenu
 
 " Highlight non-ascii characters
 syntax match nonascii "[^\x00-\x7F]"
 hi nonascii guibg=Red ctermbg=2
-
-" Make backspace work like most other apps
-set backspace=2
-set backspace=indent,eol,start
 
 " Show tabs, line breaks, trailing spaces, and column 81.
 set listchars=tab:»·,trail:·
