@@ -5,10 +5,7 @@
 	excludesFile = ~/.gitignore
 	autocrlf = input
 	safecrlf = false
-	ignorecase = true
 	editor = vim
-	filemode = true
-	pager = less -r
 [color]
 	ui = true
 	diff = auto
