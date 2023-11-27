@@ -1,4 +1,0 @@
---type-set=drupal=.module,.inc,.tpl.php
---type-set=test=.test
---pager
-less -r
