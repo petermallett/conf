@@ -23,7 +23,7 @@ jira-des() {
   wl-copy -n "ITMKTGDES-$1"
 }
 
-#TODO: what URL should this have?
+# Set WIKI_BASE_URL in ~/.bash_private
 wiki() {
-    bash_open "$JIRA_BASE_URL/wiki/spaces/$1"
+    bash_open "$WIKI_BASE_URL/docs/projects/$1"
 }
