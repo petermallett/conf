@@ -11,8 +11,8 @@ size = 15
 decorations = "None"
 
 [window.dimensions]
-columns = 240
-lines = 44
+columns = 92
+lines = 20
 
 [window.padding]
 x = 2
