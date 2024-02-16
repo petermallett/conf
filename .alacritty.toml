@@ -1,0 +1,19 @@
+import = ["/home/pmallett/.config/alacritty/themes/themes/ayu_dark.toml"]
+
+# Override imported theme
+[colors.primary]
+background = "0x000000"
+
+[font]
+size = 15
+
+[window]
+decorations = "None"
+
+[window.dimensions]
+columns = 240
+lines = 44
+
+[window.padding]
+x = 2
+y = 2
