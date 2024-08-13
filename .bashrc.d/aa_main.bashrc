@@ -25,6 +25,8 @@ alias update-core='composer update drupal/core webflo/drupal-core-require-dev --
 alias dockerpsa='docker ps -a --format "table {{.Names}}\t {{.Status}}"'
 alias podmanpsa='podman ps -a --format "table {{.Names}}\t {{.Status}}"'
 
+export HISTTIMEFORMAT="%d/%m/%y %T "
+
 export DENO_INSTALL="/home/pmallett/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 

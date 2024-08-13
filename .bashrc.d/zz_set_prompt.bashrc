@@ -15,8 +15,8 @@ function enter_directory {
   fi
   PREV_PWD=$PWD
 
-  [[ -f ".toolboxrc" ]] && toolbox-use
-  [[ -f ".nvmrc" ]] && nvm use
+  # [[ -f ".toolboxrc" ]] && toolbox-use
+  # [[ -f ".nvmrc" ]] && nvm use
 }
 export PROMPT_COMMAND=enter_directory
 

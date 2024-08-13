@@ -4,3 +4,5 @@ _scratch
 .toolboxrc
 .idea
 _gi_*
+tls.key
+tls.cert

@@ -5,14 +5,14 @@ import = ["/home/pmallett/.config/alacritty/themes/themes/ayu_dark.toml"]
 background = "0x000000"
 
 [font]
-size = 15
+size = 12
 
 [window]
 decorations = "None"
 
 [window.dimensions]
-columns = 92
-lines = 20
+columns = 192
+lines = 40
 
 [window.padding]
 x = 2
