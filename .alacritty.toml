@@ -1,6 +1,3 @@
-import = ["/home/pmallett/.config/alacritty/themes/themes/ayu_dark.toml"]
-
-# Override imported theme
 [colors.primary]
 background = "0x000000"
 
