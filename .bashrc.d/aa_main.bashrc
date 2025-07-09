@@ -20,6 +20,7 @@ alias lsd='ls --color -lh --group-directories-first'
 export DRUSH_LAUNCHER_FALLBACK=/usr/local/bin/drush8
 alias tmuxa='tmux attach-session -t'
 alias update-core='composer update drupal/core webflo/drupal-core-require-dev --with-dependencies'
+IGNOREEOF=2 #Stop shell exiting on first Ctrl-d
 # ddev . 'PHP_IDE_CONFIG="serverName=[servername]" ../vendor/drush/drush/drush [drush command]'
 # alias git-delete-merged-remotes="git branch -a --merged |grep feature | sed 's|remotes/origin/||' |xargs git push origin --delete"
 alias dockerpsa='docker ps -a --format "table {{.Names}}\t {{.Status}}"'
@@ -40,18 +41,15 @@ loho () {
 }
 
 up () {
-  if [ -z $1 ]; then
-    cd ..
-  elif [ $1 -gt 0 ]; then
-    let count=1
-    cdstr=".."
-    while [ $count -lt $1 ]; do
-      cdstr="$cdstr/.."
-      let count=count+1
-    done
-    cd $cdstr
-  else
-    echo "Argument must be a positive integer."
-  fi
-  pwd
+    if [ -z $1 ]; then
+        cd ..
+    elif [[ $1 -lt 1 ]]; then
+        echo "Argument must be a positive integer."
+        return
+    else
+        local cdstr=''
+        for n in $(seq 1 $1); do cdstr+="../"; done
+        cd $cdstr
+    fi
+    pwd
 }
