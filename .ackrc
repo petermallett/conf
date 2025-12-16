@@ -1,0 +1,2 @@
+--pager=less -RFX
+--ignore-directory=is:dist
