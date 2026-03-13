@@ -13,6 +13,13 @@ alias composer-install-prod='composer install --no-ansi --no-dev --no-progress -
 alias composer-memory='COMPOSER_MEMORY_LIMIT=-1 composer'
 alias ddr='ddev drush'
 alias lsd='ls --color -lh --group-directories-first'
+alias list_displays="swaymsg -t get_outputs | jq '.[].name'"
+alias list_scratch="swaymsg -t get_tree | jq -c '.nodes[0].nodes[0].floating_nodes[] | {id: .id,name: .name}'"
+list_sway () {
+    shopt -s expand_aliases
+    echo "displays:"; list_displays
+    echo "scratch:"; list_scratch
+}
 # Drush 7 fallback installed via global composer require
 # https://docs.drush.org/en/7.x/install/
 # export DRUSH_LAUNCHER_FALLBACK=$HOME/.composer/vendor/bin/drush

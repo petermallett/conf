@@ -18,3 +18,7 @@
 
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     install plugins with <prefix> + I
+
+
+# TODO - test this with ~/.config/ stuff
+# Might need to be updated to link items instead of the ~/.config dir..
