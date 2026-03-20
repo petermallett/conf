@@ -1,3 +1,6 @@
 [submodule ".vim/pack/plugins/start/tcomment_vim"]
 	path = .vim/pack/plugins/start/tcomment_vim
 	url = https://github.com/tomtom/tcomment_vim
+[submodule "HyprNova"]
+	path = HyprNova
+	url = https://github.com/zDyant/HyprNova.git
