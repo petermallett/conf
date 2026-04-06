@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer for deja-dup-ignore.service
+Requires=deja-dup-ignore.service
+
+[Timer]
+Unit=deja-dup-ignore.service
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

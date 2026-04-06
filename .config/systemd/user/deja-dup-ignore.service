@@ -1,0 +1,10 @@
+[Unit]
+Description=Touches a deja-dup ignore file in every node_modules directory in ~/
+Wants=deja-dup-ignore.sh
+
+[Service]
+Type=simple
+ExecStart=%h/bin/deja-dup-ignore.sh
+
+[Install]
+WantedBy=default.target
