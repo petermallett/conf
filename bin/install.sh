@@ -7,7 +7,7 @@ if [ $HOME != $PWD ]; then
 fi
 
 skip_files=(. .. .git README.md)
-for f in $PWD/conf/.*
+for f in $(find $PWD/conf/ -maxdepth 1)
 do
     name=$(basename "$f")
     for g in "${skip_files[@]}" ; do
